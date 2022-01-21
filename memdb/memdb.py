@@ -71,7 +71,7 @@ class Table:
                     index[new_value_hash] = []
                 index[new_value_hash].append(data)
 
-    def __get_data_list(self, key_info: List[dict], key_value: dict):
+    def __get_data_list(self, key_info: List[dict], key_value: dict) -> List[Data]:
         ret = []
         value_hash = self.__get_value_hash(key_info['key_set'], key_value)
         index: dict = self.index_map[key_info['key_set_hash']]
@@ -143,7 +143,7 @@ class Table:
 
         return True
 
-    def get(self, *args, **kwargs):
+    def get(self, *args, **kwargs) -> List[Data]:
         key_value = dict(kwargs)
         key_info: List[dict] = None
         for each_key_info in self.key_info_list:
@@ -157,8 +157,8 @@ class Table:
         data_list = self.__get_data_list(key_info, key_value)
         return data_list
 
-    def query(self, qeury):
-        pass
+    def getAll(self) -> List[Data]:
+        return self.data
 
     def test(self):
         print(self.insert(port_name='veth1', port_no=1, dpid=1))
@@ -197,8 +197,8 @@ class Table:
             ret += f'{name:>{padding_map[name]}} | '
         ret += '\n'
 
-        ret += '| '
         for each in self.data:
+            ret += '| '
             for name in self.member_name_set:
                 ret += f'{each.key_value[name]:>{padding_map[name]}} | '
             ret += '\n'
